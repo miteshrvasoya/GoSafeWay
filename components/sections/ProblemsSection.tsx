@@ -46,8 +46,11 @@ const itemVariants = {
 
 export default function ProblemsSection() {
   return (
-    <section className="py-20 md:py-32 px-4 bg-background">
-      <div className="max-w-6xl mx-auto">
+    <section className="relative py-20 md:py-32 px-4 bg-background overflow-hidden">
+      {/* Background Ambient Glow */}
+      <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-destructive/10 blur-[100px] rounded-full pointer-events-none" />
+      
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -80,7 +83,7 @@ export default function ProblemsSection() {
                 variants={itemVariants}
                 className="group"
               >
-                <div className="bg-card rounded-2xl p-8 h-full hover:shadow-lg transition-shadow duration-300 border border-border/50 hover:border-primary/30">
+                <div className="relative overflow-hidden backdrop-blur-md bg-card/60 dark:bg-card/30 rounded-2xl p-8 h-full transition-all duration-300 border border-border/50 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1">
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${problem.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>

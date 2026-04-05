@@ -43,8 +43,11 @@ const itemVariants = {
 
 export default function SolutionSection() {
   return (
-    <section id="features" className="py-20 md:py-32 px-4 bg-muted/30">
-      <div className="max-w-6xl mx-auto">
+    <section id="features" className="relative py-20 md:py-32 px-4 bg-muted/30 overflow-hidden">
+      {/* Background Ambient Glow */}
+      <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-primary/10 blur-[100px] rounded-full pointer-events-none -z-10" />
+      
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -78,7 +81,7 @@ export default function SolutionSection() {
                 whileHover={{ y: -8 }}
                 className="group"
               >
-                <div className="bg-card rounded-2xl p-8 h-full border border-border/50 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+                <div className="backdrop-blur-md bg-card/60 dark:bg-card/30 rounded-2xl p-8 h-full border border-border/50 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 relative overflow-hidden">
                   <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-6 group-hover:from-primary/30 group-hover:to-accent/30 transition-colors duration-300">
                     <Icon className="w-7 h-7 text-primary" />
                   </div>
