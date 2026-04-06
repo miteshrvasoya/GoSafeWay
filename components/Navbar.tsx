@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
+import { trackNavClick, trackEarlyAccessClick } from '@/lib/analytics'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -16,11 +17,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = (id: string, label?: string) => {
+    if (label) trackNavClick(label)
     const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
+    if (element) element.scrollIntoView({ behavior: 'smooth' })
   }
 
   const navItems = [
@@ -62,7 +62,7 @@ export default function Navbar() {
             {navItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => scrollToSection(item.id)}
+                onClick={() => scrollToSection(item.id, item.label)}
                 className="text-sm text-foreground/70 hover:text-foreground transition-colors duration-200 font-medium"
               >
                 {item.label}
@@ -73,7 +73,10 @@ export default function Navbar() {
           {/* CTA Button */}
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
-              onClick={() => scrollToSection('cta')}
+              onClick={() => {
+                trackEarlyAccessClick('navbar')
+                scrollToSection('cta')
+              }}
               className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-xl font-semibold"
             >
               Get Early Access

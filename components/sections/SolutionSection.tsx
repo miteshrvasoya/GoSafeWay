@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Clock, MapPin, Zap } from 'lucide-react'
+import SectionTracker from '@/components/SectionTracker'
 
 const features = [
   {
@@ -44,6 +45,7 @@ const itemVariants = {
 export default function SolutionSection() {
   return (
     <section id="features" className="relative py-20 md:py-32 px-4 bg-muted/30 overflow-hidden">
+      <SectionTracker name="features" />
       {/* Background Ambient Glow */}
       <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-primary/10 blur-[100px] rounded-full pointer-events-none -z-10" />
       

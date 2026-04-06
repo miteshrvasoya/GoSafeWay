@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Lock, Eye, Shield } from 'lucide-react'
+import SectionTracker from '@/components/SectionTracker'
 
 const privacyPoints = [
   {
@@ -17,7 +18,7 @@ const privacyPoints = [
   {
     icon: Shield,
     title: 'No hidden monitoring or background tracking',
-    description: 'Complete transparency about what data is collected and how it&apos;s used',
+    description: "Complete transparency about what data is collected and how it's used",
   },
 ]
 
@@ -44,6 +45,7 @@ const itemVariants = {
 export default function PrivacySection() {
   return (
     <section id="privacy" className="py-20 md:py-32 px-4 bg-background">
+      <SectionTracker name="privacy" />
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div

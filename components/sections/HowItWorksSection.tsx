@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Play, Activity, AlertCircle, Bell } from 'lucide-react'
+import SectionTracker from '@/components/SectionTracker'
 
 const steps = [
   {
@@ -57,6 +58,7 @@ const itemVariants = {
 export default function HowItWorksSection() {
   return (
     <section id="how-it-works" className="py-20 md:py-32 px-4 bg-background">
+      <SectionTracker name="how_it_works" />
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div

@@ -1,20 +1,58 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ArrowRight, CheckCircle2, Loader2 } from 'lucide-react'
+import {
+  trackWaitlistSignup,
+  trackWaitlistDuplicate,
+  trackEarlyAccessClick,
+  trackSectionView,
+  trackEvent,
+} from '@/lib/analytics'
 
 export default function CTASection() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
+  const [formStarted, setFormStarted] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  // Fire section_view once when the CTA section scrolls into view
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          trackSectionView('cta')
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.2 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  // Fire form_start once on first keystroke
+  const handleEmailChange = (value: string) => {
+    setEmail(value)
+    if (!formStarted && value.length > 0) {
+      setFormStarted(true)
+      trackEvent({ action: 'waitlist_form_start', category: 'engagement' })
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email.trim() || isSubmitting) return
+
+    // Track the click intent
+    trackEarlyAccessClick('cta_section')
 
     setIsSubmitting(true)
     setErrorMsg('')
@@ -22,25 +60,28 @@ export default function CTASection() {
     try {
       const res = await fetch('/api/waitlist', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       })
 
       const data = await res.json()
 
-      if (!res.ok) {
+      // 200 = already on list, 201 = newly added
+      if (res.status === 200) {
+        trackWaitlistDuplicate()
+      } else if (res.status === 201) {
+        const domain = email.split('@')[1] ?? 'unknown'
+        trackWaitlistSignup(domain)
+      } else {
         throw new Error(data.error || 'Something went wrong')
       }
 
       setSubmitted(true)
       setEmail('')
-      setTimeout(() => {
-        setSubmitted(false)
-      }, 5000)
+      setTimeout(() => setSubmitted(false), 5000)
     } catch (error: any) {
       console.error('Submission error:', error)
+      trackEvent({ action: 'waitlist_error', category: 'error', label: error.message })
       setErrorMsg(error.message || 'Failed to join waitlist. Please try again.')
     } finally {
       setIsSubmitting(false)
@@ -48,7 +89,7 @@ export default function CTASection() {
   }
 
   return (
-    <section id="cta" className="relative py-24 md:py-32 px-4 overflow-hidden">
+    <section ref={sectionRef} id="cta" className="relative py-24 md:py-32 px-4 overflow-hidden">
       {/* Background Glows */}
       <div className="absolute inset-0 pointer-events-none -z-10">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/20 blur-[120px] rounded-full opacity-50 dark:opacity-20" />
@@ -98,7 +139,7 @@ export default function CTASection() {
                     type="email"
                     placeholder="your@email.com"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => handleEmailChange(e.target.value)}
                     disabled={isSubmitting}
                     className="rounded-full border-border/50 bg-background/50 backdrop-blur-sm flex-1 h-12 text-base focus-visible:ring-primary/50"
                     required

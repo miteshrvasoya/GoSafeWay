@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { RotateCw, Eye, AlertTriangle } from 'lucide-react'
+import SectionTracker from '@/components/SectionTracker'
 
 const problems = [
   {
@@ -47,6 +48,7 @@ const itemVariants = {
 export default function ProblemsSection() {
   return (
     <section className="relative py-20 md:py-32 px-4 bg-background overflow-hidden">
+      <SectionTracker name="problems" />
       {/* Background Ambient Glow */}
       <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-destructive/10 blur-[100px] rounded-full pointer-events-none" />
       

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import PhoneFrame from '@/components/PhoneFrame'
 import { ChevronRight, Sparkles } from 'lucide-react'
+import { trackEarlyAccessClick, trackDemoClick } from '@/lib/analytics'
 
 const containerVariants = {
   hidden: {},
@@ -84,7 +85,10 @@ export default function HeroSection() {
                 <Button
                   id="hero-early-access-btn"
                   size="lg"
-                  onClick={() => document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => {
+                    trackEarlyAccessClick('hero')
+                    document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })
+                  }}
                   className="h-12 rounded-full bg-primary px-8 font-semibold text-primary-foreground shadow-lg shadow-primary/30 hover:bg-primary/90 transition-shadow"
                 >
                   Get Early Access
@@ -97,7 +101,10 @@ export default function HeroSection() {
                   id="hero-demo-btn"
                   size="lg"
                   variant="outline"
-                  onClick={() => document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => {
+                    trackDemoClick('hero')
+                    document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' })
+                  }}
                   className="h-12 rounded-full bg-background/50 px-8 font-semibold border-border/60 backdrop-blur-sm hover:bg-muted/50"
                 >
                   See How It Works
