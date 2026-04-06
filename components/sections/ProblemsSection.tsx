@@ -7,7 +7,7 @@ const problems = [
   {
     icon: RotateCw,
     title: 'You keep opening maps again and again',
-    description: 'Wondering if they&apos;ve reached safely yet?',
+    description: "Wondering if they've reached safely yet?",
     color: 'from-blue-500 to-blue-600',
   },
   {
@@ -19,7 +19,7 @@ const problems = [
   {
     icon: AlertTriangle,
     title: 'False alerts create unnecessary panic',
-    description: 'Not knowing if it&apos;s really important',
+    description: "Not knowing if it's really important",
     color: 'from-orange-500 to-orange-600',
   },
 ]
