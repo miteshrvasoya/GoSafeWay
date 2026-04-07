@@ -11,7 +11,33 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'GoSafeway - Safety Without Surveillance',
   description: 'GoSafeway helps you ensure your loved ones reach safely without constantly checking location or feeling like surveillance.',
-  generator: 'v0.app',
+  metadataBase: new URL('https://gosafeway.onrender.com'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'GoSafeway - Safety Without Surveillance',
+    description: 'Ensure your loved ones reach safely without feeling monitored.',
+    url: 'https://gosafeway.onrender.com',
+    siteName: 'GoSafeway',
+    images: [
+      {
+        url: 'https://pub-2a4eb4e23d7d4d18bc7ca5d587d38902.r2.dev/Screenshot%202026-04-07%20085611.png',
+        width: 1200,
+        height: 630,
+        alt: 'GoSafeway - Safety Without Surveillance',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'GoSafeway - Safety Without Surveillance',
+    description: 'Protect your family without constant surveillance.',
+    images: ['https://pub-2a4eb4e23d7d4d18bc7ca5d587d38902.r2.dev/Screenshot%202026-04-07%20085611.png'],
+    creator: '@gosafeway',
+  },
   icons: {
     icon: [
       {
